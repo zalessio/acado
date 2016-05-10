@@ -29,7 +29,7 @@ ADD_SUBDIRECTORY( code_generation/templates )
 ################################################################################
 
 SET( ACADO_SOURCE_DIRS
-	# Core 
+	# Core
 	utils
 	matrix_vector
 	variables_grid
@@ -52,7 +52,7 @@ IF (NOT ACADO_BUILD_CGT_ONLY)
 		bindings/acado_gnuplot
 	)
 ENDIF()
-	
+
 # Optimal Control and Simulation source folders.
 ## Optimal Control
 SET ( ACADO_SOURCE_DIRS ${ACADO_SOURCE_DIRS}
@@ -91,7 +91,7 @@ ENDIF()
 SET ( ACADO_SOURCE_DIRS ${ACADO_SOURCE_DIRS}
 	# Code Generation Tool
 	code_generation
-	code_generation/linear_solvers	
+	code_generation/linear_solvers
 	code_generation/integrators
 )
 
@@ -111,7 +111,7 @@ FOREACH( DIR ${ACADO_SOURCE_DIRS} )
 	SET( ACADO_SOURCES ${ACADO_SOURCES} ${SRC} )
 ENDFOREACH( DIR ${ACADO_SOURCE_DIRS} )
 
-IF ( ACADO_BUILD_STATIC )	
+IF ( ACADO_BUILD_STATIC )
 	ADD_LIBRARY( acado_toolkit STATIC ${ACADO_SOURCES} )
 	TARGET_LINK_LIBRARIES(
 		acado_toolkit
