@@ -56,10 +56,10 @@ SCPmethod::SCPmethod( ) : NLPsolver( )
 	derivativeApproximation = 0;
 
 	bandedCPsolver = 0;
-	
+
 	status = BS_NOT_INITIALIZED;
 	isCP = BT_FALSE;
-	
+
 	hasPerformedStep = BT_FALSE;
 	isInRealTimeMode = BT_FALSE;
 	needToReevaluate = BT_FALSE;
@@ -81,7 +81,7 @@ SCPmethod::SCPmethod(	UserInteraction* _userInteraction,
 
 	status = BS_NOT_INITIALIZED;
 	isCP = _isCP;
-	
+
 	hasPerformedStep = BT_FALSE;
 	isInRealTimeMode = BT_FALSE;
 	needToReevaluate = BT_FALSE;
@@ -114,7 +114,7 @@ SCPmethod::SCPmethod( const SCPmethod& rhs ) : NLPsolver( rhs )
 
 	status = rhs.status;
 	isCP   = rhs.isCP;
-	
+
 	hasPerformedStep = rhs.hasPerformedStep;
 	isInRealTimeMode = rhs.isInRealTimeMode;
 	needToReevaluate = rhs.needToReevaluate;
@@ -178,7 +178,7 @@ SCPmethod& SCPmethod::operator=( const SCPmethod& rhs ){
 
 		status = rhs.status;
 		isCP   = rhs.isCP;
-		
+
 		hasPerformedStep = rhs.hasPerformedStep;
 		isInRealTimeMode = rhs.isInRealTimeMode;
 		needToReevaluate = rhs.needToReevaluate;
@@ -221,17 +221,17 @@ returnValue SCPmethod::init(	VariablesGrid* x_init ,
 	// ---------------------------
 	int printLevel;
 	get( PRINTLEVEL,printLevel );
-	
-	if ( (PrintLevel)printLevel >= HIGH ) 
+
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Computing initial linearization of NLP system ...\n";
 
 // 	iter.print();
-	
+
     ACADO_TRY( eval->evaluateSensitivities( iter,bandedCP ) ).changeType( RET_NLP_INIT_FAILED );
 
 // 	iter.print();
-	
-	if ( (PrintLevel)printLevel >= HIGH ) 
+
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Computing initial linearization of NLP system done.\n";
 
 	int useRealtimeIterations;
@@ -304,12 +304,12 @@ returnValue SCPmethod::step(	const DVector& x0_,
 
 	if ( performCurrentStep( ) == CONVERGENCE_ACHIEVED )
 		return CONVERGENCE_ACHIEVED;
-	
+
 	returnValue returnValue = prepareNextStep( );
 
 	if ( ( returnValue != CONVERGENCE_ACHIEVED ) && ( returnValue != CONVERGENCE_NOT_YET_ACHIEVED ) )
 		return RET_NLP_STEP_FAILED;
-	
+
 	return returnValue;
 }
 
@@ -318,14 +318,14 @@ returnValue SCPmethod::feedbackStep(	const DVector& x0_,
 										const DVector& p_
 										)
 {
-  
+
   #ifdef SIM_DEBUG
   printf("START OF THE FEEDBACK STEP \n");
-  
+
   x0_.print("x0");
   #endif
-  
-  
+
+
 	returnValue returnvalue;
 
 	if ( ( status != BS_READY ) && ( status != BS_RUNNING ) )
@@ -333,7 +333,7 @@ returnValue SCPmethod::feedbackStep(	const DVector& x0_,
 
 	clockTotalTime.reset( );
 	clockTotalTime.start( );
-	
+
 	status = BS_RUNNING;
 	hasPerformedStep = BT_FALSE;
 
@@ -352,7 +352,7 @@ returnValue SCPmethod::feedbackStep(	const DVector& x0_,
 
 	//bandedCP.objectiveGradient.print();
 	//x0_.print("x0");
-	
+
     if ( isInRealTimeMode == BT_TRUE )
 	{
 		if ( setupRealTimeParameters( x0_,p_ ) != SUCCESSFUL_RETURN )
@@ -362,7 +362,7 @@ returnValue SCPmethod::feedbackStep(	const DVector& x0_,
 	int printLevel;
 	get( PRINTLEVEL,printLevel );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Solving banded QP ...\n";
 
 // 	iter.print();
@@ -371,8 +371,8 @@ returnValue SCPmethod::feedbackStep(	const DVector& x0_,
 		return ACADOERROR( RET_NLP_STEP_FAILED );
 
 // 	bandedCP.deltaX.print();
-	
-	if ( (PrintLevel)printLevel >= HIGH ) 
+
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Solving banded QP done.\n";
 
 	++numberOfSteps;
@@ -389,7 +389,7 @@ returnValue SCPmethod::performCurrentStep( )
 	{
 		if ( bandedCPsolver->finalizeSolve( bandedCP ) != SUCCESSFUL_RETURN )
 			return ACADOERROR( RET_NLP_STEP_FAILED );
-		
+
 // 		bandedCP.deltaX.print();
     }
 
@@ -405,9 +405,9 @@ returnValue SCPmethod::performCurrentStep( )
 	int printLevel;
 	get( PRINTLEVEL,printLevel );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Perform globalized SQP step ...\n";
-	
+
 	clock.reset( );
 	clock.start( );
 
@@ -428,7 +428,7 @@ returnValue SCPmethod::performCurrentStep( )
 	clock.stop( );
 	setLast( LOG_TIME_GLOBALIZATION,clock.getTime() );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Perform globalized SQP step done.\n";
 
 	printIteration( );
@@ -448,7 +448,7 @@ returnValue SCPmethod::performCurrentStep( )
 
 	if ( numberOfSteps >= 0 )
 		set( KKT_TOLERANCE_SAFEGUARD,0.0 );
-	
+
 	return CONVERGENCE_NOT_YET_ACHIEVED;
 }
 
@@ -476,8 +476,8 @@ returnValue SCPmethod::prepareNextStep( )
 		ACADOERROR( RET_NLP_STEP_FAILED );
 
 	clockLG.stop( );
-	
-	
+
+
     // Linearize the NLP system at the new point:
     // ------------------------------------------
 	int printLevel;
@@ -491,8 +491,8 @@ returnValue SCPmethod::prepareNextStep( )
 	(iter.x->getVector(1)).print("iter.x(1)");
 	(iter.u->getVector(1)).print("iter.u(1)");*/
 	#endif
-	
-	if ( (PrintLevel)printLevel >= HIGH ) 
+
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Computing new linearization of NLP system ...\n";
 
 	clock.reset( );
@@ -514,10 +514,10 @@ returnValue SCPmethod::prepareNextStep( )
 	clock.stop( );
 	setLast( LOG_TIME_SENSITIVITIES,clock.getTime() );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Computing new linearization of NLP system done.\n";
 	//bandedCP.objectiveGradient.print();
-	
+
 
     // Coumpute the "new" Lagrange Gradient with the latest multipliers:
     // -----------------------------------------------------------------
@@ -530,12 +530,12 @@ returnValue SCPmethod::prepareNextStep( )
 	clockLG.stop( );
 	setLast( LOG_TIME_LAGRANGE_GRADIENT,clockLG.getTime() );
 
-	
+
     // Compute the next Hessian:
     // -------------------------
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Computing or approximating Hessian matrix ...\n";
-	
+
 	clock.reset( );
 	clock.start( );
 
@@ -546,7 +546,7 @@ returnValue SCPmethod::prepareNextStep( )
 	clock.stop( );
 	setLast( LOG_TIME_HESSIAN_COMPUTATION,clock.getTime() );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Computing or approximating Hessian matrix done.\n";
 
 	// CONDENSE THE KKT-SYSTEM:
@@ -590,7 +590,7 @@ returnValue SCPmethod::shiftVariables(	double timeShift,
 	#ifdef SIM_DEBUG
 	cout << "SCPmethod::shiftVariables\n" );
 	#endif
-	
+
 	if ( acadoIsNegative( timeShift ) == BT_TRUE )
 		return ACADOERROR( RET_INVALID_ARGUMENTS );
 
@@ -657,7 +657,7 @@ returnValue SCPmethod::setupLogging( )
 	iterationOutput.addItem( LOG_MERIT_FUNCTION_VALUE,"merit function value");
 	iterationOutput.addItem( LOG_IS_QP_RELAXED,"QP relaxation");
 	iterationOutput.addItem( LOG_NUM_QP_ITERATIONS,"No. QP iterations");
-	
+
 	outputLoggingIdx = addLogRecord( iterationOutput );
 
 	return SUCCESSFUL_RETURN;
@@ -697,11 +697,11 @@ returnValue SCPmethod::setup( )
 
 	int sparseQPsolution;
 	get( SPARSE_QP_SOLUTION,sparseQPsolution );
-	
+
 	int printLevel;
 	get( PRINTLEVEL,printLevel );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Initializing banded QP solver ...\n";
 
 	if ( (SparseQPsolutionMethods)sparseQPsolution == CONDENSING )
@@ -717,7 +717,7 @@ returnValue SCPmethod::setup( )
 		return ACADOERROR( RET_NOT_YET_IMPLEMENTED );
 	}
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Initializing banded QP solver done.\n";
 
     // INITIALIZE GLOBALIZATION STRATEGY (SCPstep):
@@ -746,12 +746,12 @@ returnValue SCPmethod::setup( )
 
 	// EVALUATION OF THE NLP FUNCTIONS:
 	// --------------------------------
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Initial integration of dynamic system ...\n";
-	
+
 	ACADO_TRY( eval->evaluate(iter,bandedCP) ).changeType( RET_NLP_INIT_FAILED );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Initial integration of dynamic system done.\n";
 
     // INITIALIZE HESSIAN MATRIX:
@@ -803,12 +803,12 @@ returnValue SCPmethod::setup( )
 
 	bandedCP.hessian.init( 5*getNumPoints(), 5*getNumPoints() );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "--> Initializing Hessian computations ...\n";
-	
+
 	ACADO_TRY( derivativeApproximation->initHessian( bandedCP.hessian,getNumPoints(),iter ) );
 
-	if ( (PrintLevel)printLevel >= HIGH ) 
+	if ( (PrintLevel)printLevel >= HIGH )
 		cout << "<-- Initializing Hessian computations done.\n";
 
 	// SWITCH BETWEEN SINGLE- AND MULTIPLE SHOOTING:
@@ -835,7 +835,7 @@ returnValue SCPmethod::printIteration( )
 {
 	double KKTmultiplierRegularisation;
 	get( KKT_TOLERANCE_SAFEGUARD,KKTmultiplierRegularisation );
-	
+
 	setLast( LOG_NUM_SQP_ITERATIONS, numberOfSteps );
 	setLast( LOG_KKT_TOLERANCE, eval->getKKTtolerance( iter,bandedCP,KKTmultiplierRegularisation ) );
 	setLast( LOG_OBJECTIVE_VALUE, eval->getObjectiveValue() );
@@ -843,7 +843,7 @@ returnValue SCPmethod::printIteration( )
 	int printLevel;
 	get( PRINTLEVEL,printLevel );
 
-	if ( (PrintLevel)printLevel >= MEDIUM ) 
+	if ( (PrintLevel)printLevel >= MEDIUM )
 	{
 		if (numberOfSteps == 1 || (numberOfSteps % 10) == 0)
 			cout	<< "sqp it | "
@@ -915,7 +915,7 @@ returnValue SCPmethod::checkForConvergence( )
 		}
 		return CONVERGENCE_ACHIEVED;
 	}
-	
+
 	return CONVERGENCE_NOT_YET_ACHIEVED;
 }
 
@@ -967,7 +967,7 @@ returnValue SCPmethod::checkForRealTimeMode(	const DVector &x0_,
 	get( USE_REALTIME_ITERATIONS,useRealtimeIterations );
 	isInRealTimeMode = (BooleanType)useRealtimeIterations;
 
-	if ( ( isInRealTimeMode == BT_FALSE ) && 
+	if ( ( isInRealTimeMode == BT_FALSE ) &&
 		 ( ( x0_.isEmpty( ) == BT_FALSE ) || ( p_.isEmpty( ) == BT_FALSE ) ) )
 		return ACADOERROR( RET_NEED_TO_ACTIVATE_RTI );
 
@@ -996,13 +996,13 @@ returnValue SCPmethod::stopClockAndPrintRuntimeProfile( )
 {
 	clockTotalTime.stop( );
 	setLast( LOG_TIME_SQP_ITERATION,clockTotalTime.getTime() );
-	
+
 	int printProfile;
 	get( PRINT_SCP_METHOD_PROFILE, printProfile );
 
 	if( (BooleanType) printProfile == BT_TRUE )
 		printRuntimeProfile();
-	
+
 	return SUCCESSFUL_RETURN;
 }
 
@@ -1062,17 +1062,17 @@ returnValue SCPmethod::getFirstControl( DVector& u0_  ) const
 	#ifdef SIM_DEBUG
 	cout << "SCPmethod::getFirstControl\n";
 	#endif
-	
+
     if( iter.u == 0 )
 		return ACADOERROR( RET_MEMBER_NOT_INITIALISED );
 
     u0_ = iter.u->getVector( 0 );
-	
+
 	if ( hasPerformedStep == BT_FALSE )
 	{
 		DVector deltaU0( getNU() );
 		bandedCPsolver->getFirstControl( deltaU0 );
-		
+
 		u0_ += deltaU0;
 	}
 
@@ -1142,15 +1142,15 @@ returnValue SCPmethod::getAnySensitivities(	BlockMatrix& _sens,
 
 	uint N = bandedCP.dynGradient.getNumRows();
 	DMatrix tmp;
-	
+
 	_sens.init( N,1 );
-	
+
 	for( uint i=0; i<N; ++i )
 	{
 		bandedCP.dynGradient.getSubBlock( i,idx,tmp );
 		_sens.setDense( i,0,tmp );
 	}
-	
+
 	return SUCCESSFUL_RETURN;
 }
 
