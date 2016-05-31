@@ -23,7 +23,7 @@
 ################################################################################
 
 #
-# Minimum required version of cmake 
+# Minimum required version of cmake
 #
 CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
 
@@ -202,7 +202,7 @@ IF (NOT ACADO_BUILD_CGT_ONLY)
 	# Build qpOASES library
 	#
 	ADD_SUBDIRECTORY( ./external_packages/qpOASES-3.2.0 )
-	
+
 	#
 	# Build csparse library
 	#
@@ -301,12 +301,12 @@ ENDIF()
 
 SET( ACADO_INSTALL_QPOASES_EMBEDDED_SOURCES
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/Bounds.cpp
-	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/CyclingManager.cpp 
+	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/CyclingManager.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/MessageHandling.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/QProblem.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/Utils.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/Constraints.cpp
-	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/Indexlist.cpp	     
+	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/Indexlist.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/QProblemB.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/SubjectTo.cpp
 	${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA_DIR}/external_packages/qpoases/SRC/EXTRAS/SolutionAnalysis.cpp
@@ -394,7 +394,7 @@ SET( ACADO_CMAKE_DIR
 	${PROJECT_SOURCE_DIR}/cmake
 )
 
-SET( ACADO_STATIC_LIBRARIES 
+SET( ACADO_STATIC_LIBRARIES
 	${ACADO_INSTALL_STATIC_LIBRARIES}
 )
 
@@ -402,18 +402,18 @@ SET( ACADO_SHARED_LIBRARIES
 	${ACADO_INSTALL_SHARED_LIBRARIES}
 )
 
-SET( ACADO_QPOASES_EMBEDDED_FOLDER 
+SET( ACADO_QPOASES_EMBEDDED_FOLDER
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases
 )
 
 SET( ACADO_QPOASES_EMBEDDED_SOURCES
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/Bounds.cpp
-	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/CyclingManager.cpp 
+	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/CyclingManager.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/MessageHandling.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/QProblem.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/Utils.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/Constraints.cpp
-	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/Indexlist.cpp	     
+	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/Indexlist.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/QProblemB.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/SubjectTo.cpp
 	${PROJECT_SOURCE_DIR}/external_packages/qpoases/SRC/EXTRAS/SolutionAnalysis.cpp
@@ -442,7 +442,7 @@ SET( PC_VERSION
 )
 
 STRING(REPLACE ";" " -I" PC_INCLUDE_DIRS "${ACADO_INCLUDE_DIRS}")
-SET( PC_INCLUDE_DIRS 
+SET( PC_INCLUDE_DIRS
 	"-I${PC_INCLUDE_DIRS}"
 )
 
@@ -462,7 +462,7 @@ SET( PC_LIBS
 )
 
 STRING(REPLACE ";" " -I" PC_QPOASES_EMBEDDED_INC_DIRS "${ACADO_QPOASES_EMBEDDED_INC_DIRS}")
-SET( PC_QPOASES_EMBEDDED_INC_DIRS 
+SET( PC_QPOASES_EMBEDDED_INC_DIRS
 	"-I${PC_QPOASES_EMBEDDED_INC_DIRS}"
 )
 
